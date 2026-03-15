@@ -58,9 +58,10 @@ If you do not agree to these terms, **do not use this software**.
 - ISP, country, city
 - Network-based coordinates
 
-###  **Delivery Methods**
-- Serveo.net (instant SSH tunnel)
-- Cloudflared (HTTPS with SSL)
+### **Delivery Methods**
+- **Serveo.net** – Instant SSH tunnel
+- **Cloudflared** – Secure HTTPS tunnel with SSL
+- **Localhost Mode** – Run the server locally and use your own VPS or external tunneling service
 
 ###  **Live Monitoring**
 - Auto-save to data.txt (JSON)
@@ -93,9 +94,11 @@ If you do not agree to these terms, **do not use this software**.
 - **Node.js and expressjs** ( In linux distributions like `Debian`,`RHEL`, `Arch` it automatically install `nodejs` and `expressjs` if it is not installed)
 - **Port Forwarding Options:**
 
-   - **Serveo.net** – Used           as the default                option for tunneling
-  
-   - **Cloudflared** –               Available as an               alternative for               port forwarding and           is automatically              installed if missing.
+  - **Serveo.net** – Used as the default option for tunneling.
+
+  - **Cloudflared** – Available as an alternative for port forwarding and automatically installed if missing.
+
+  - **Localhost Mode** – Runs the server locally and displays the active port, allowing users to use their own VPS or external tunneling services.
   
 **Steps to Install:**
 1. **Clone the repository**
@@ -166,7 +169,7 @@ html
 </body>
 </html>
 ```
-3. **Choose a port forwarding method** – Select between Serveo.net or Cloudflared for tunneling.
+3. **Choose a port forwarding method** – Select `Serveo.net`, `Cloudflared`, or `Localhost` mode for manual/external tunneling.
 
 4. Share the generated link with the target.
 
